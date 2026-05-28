@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: atlas-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: atlas_audit
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d atlas_audit"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: atlas-api:local
+    build:
+      context: .. # Subimos un nivel para alcanzar la raíz
+      dockerfile: src/Atlas.Api/Dockerfile
+    environment:
+      DB_CONNECTION: "Host=db;Database=atlas_audit;Username=admin;Password=password123"
+      POLICY_PATH: "/policies"
+    volumes:
+      # Montamos la carpeta policies local en el contenedor
+      - ./policies:/policies
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+
+volumes:
+  pgdata:
