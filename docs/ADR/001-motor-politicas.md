@@ -18,4 +18,5 @@ Se descarta OPA para este PoC y **se adopta un motor nativo en memoria desarroll
 
 ## Consecuencias
 * **Positivas:** Al ejecutar la evaluación dentro del mismo proceso de la API, eliminamos el salto de red (*network hop*) y la latencia de serialización hacia un *sidecar*. Esto garantiza que la evaluación tome unos pocos milisegundos, priorizando el presupuesto de latencia para las operaciones más pesadas (firma criptográfica y persistencia). Además, reduce drásticamente la carga de configuración de infraestructura, alineándose con la restricción de 15 horas.
+Al tratar las políticas como archivos JSON, habilitamos un flujo de Policy-as-Code (GitOps), permitiendo a los squads desplegar  reglas de forma autónoma sin necesidad de bases de datos adicionales ni paneles de administración, delegando el versionamiento a Git.
 * **Negativas:** Renunciamos al ecosistema de herramientas de validación externas de OPA y a la expresividad del lenguaje Rego.
