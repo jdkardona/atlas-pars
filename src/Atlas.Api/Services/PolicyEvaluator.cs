@@ -18,11 +18,11 @@ public class PolicyDocument
 }
 
 // 2. La Implementación Real
-public class LocalPolicyEvaluator : IPolicyEvaluator
+public class PolicyEvaluator : IPolicyEvaluator
 {
     private readonly string _policyDirectory;
 
-    public LocalPolicyEvaluator(IConfiguration configuration)
+    public PolicyEvaluator(IConfiguration configuration)
     {
         // Leemos la ruta de los archivos desde las variables de entorno o usamos valor por defecto
         _policyDirectory = configuration["POLICY_PATH"] ?? "/policies";

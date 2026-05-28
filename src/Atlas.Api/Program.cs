@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Inyección de Dependencias (Por ahora usaremos clases falsas/dummy para compilar)
-builder.Services.AddSingleton<IPolicyEvaluator, LocalPolicyEvaluator>();
-builder.Services.AddSingleton<ICryptoSigner, DummyCryptoSigner>();
+builder.Services.AddSingleton<IPolicyEvaluator, PolicyEvaluator>();
+builder.Services.AddSingleton<ICryptoSigner, CryptoSigner>();
 
 var app = builder.Build();
 
@@ -31,10 +31,4 @@ app.MapPost("/authorize", async (
 
 app.Run();
 
-// --- Implementaciones Dummy (Solo para que compile el esqueleto) ---
-class DummyPolicyEvaluator : IPolicyEvaluator {
-    public Task<Decision> EvaluateAsync(AuthorizationRequest request) => Task.FromResult(Decision.PERMIT);
-}
-class DummyCryptoSigner : ICryptoSigner {
-    public string SignDecision(AuthorizationRequest request, Decision decision) => "mock_ecdsa_signature_base64";
-}
+

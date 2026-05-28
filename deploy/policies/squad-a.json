@@ -4,7 +4,7 @@
     {
       "action": "transfer",
       "maxAmount": 3000000,
-      "requireMfa": true
+      "requireMfa": false
     }
   ]
 }

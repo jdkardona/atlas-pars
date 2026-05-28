@@ -8,7 +8,7 @@ Por qué delegué esto: Escribir un .gitignore desde cero es propenso a errores 
 
 Uso Estratégico 2: Modelado de Arquitectura (C4 y Mermaid)
 
-Prompt utilizado: >   *"Actúa como un Arquitecto de Software Senior. Basándote en los ADRs suministrados y el archivo README.md, genera el código Mermaid para diagramas C4 de Nivel 1 (Contexto) y Nivel 2 (Contenedores).  incluye tambien un diagrama de secuencias.
+Prompt utilizado: "Actúa como un Arquitecto de Software Senior. Basándote en los ADRs suministrados y el archivo README.md, genera el código Mermaid para diagramas C4 de Nivel 1 (Contexto) y Nivel 2 (Contenedores).  incluye tambien un diagrama de secuencias.
 
 Restricciones:
 
@@ -25,11 +25,48 @@ Por qué delegué esto: Al delegar la sintaxis de Mermaid a la IA, aseguré que 
 Uso Estratégico 3: Despliegue local e IaC
 
 Prompt utilizado:
-*"Actúa como un Ingeniero DevOps Senior especializado en Azure. Necesito configurar la infraestructura base para un sistema multi-tenant.
+"Actúa como un Ingeniero DevOps Senior especializado en Azure. Necesito configurar la infraestructura base para un sistema multi-tenant.
 
 Redacta un docker-compose.yml para el entorno local que incluya: PostgreSQL 16 (con persistencia de volumen), un servicio de API (mapeado a un Dockerfile en src/Atlas.Api) y un volumen para un 'Policy Store' basado en archivos JSON locales.
 
 Crea un archivo main.tf (Terraform) para desplegar en Azure Container Apps y PostgreSQL Flexible Server.
 
 Redacta un RUNBOOK.md básico que explique cómo levantar el entorno local, realizar troubleshooting de la base de datos.
-Restricción: Mantén la estructura de directorios suministrada.
+Restricción: Mantén la estructura de directorios suministrada."
+
+
+
+Uso estrategico 4: Conytratos y dockerfile
+
+Promt: "Eres un desarrollador backend Senior en .NET 8. Estamos construyendo Atlas PARS, un motor centralizado de autorizaciónes. el proyecto se llama Atlas.Api.csproj, y se encuentra en la carpeta /src/Atlas.Api
+
+Necesitoq ue me ayudes a generar los modelos de dominio (Contratos de API) para la evaluación de politicas.
+
+Deben ser record de C# (inmutables).
+
+AuthorizationRequest: Debe recibir el token JWT (string), la acción solicitada (string), el recurso (string) y el contexto (clave-valor).
+
+AuthorizationResponse: Debe devolver la decisión (PERMIT, DENY, CHALLENGE) y la firma criptográfica (string).
+
+tambien necesito que me ayudes a generar un Dockerfile optimizado para producción (multi-stage) para una Minimal API en .NET 8."
+
+
+
+Uso estrategico 5: Prompt de Especificación (Interfaces y Minimal API):
+"Actúa como un desarrollador Senior en .NET 8. ya tenemos definidos los records AuthorizationRequest y AuthorizationResponse.
+
+Tarea 1: Define dos interfaces limpias en C#.
+
+IPolicyEvaluator: Debe tener un método que reciba el AuthorizationRequest y devuelva un Decision.
+
+ICryptoSigner: Debe tener un método que reciba el JSON del Request y la Decision, y devuelva un string con la firma ECDSA (ES256).
+
+Tarea 2: Crea el orquestador con Minimal APIs. Configura la inyección de dependencias para las interfaces del paso anterior vamos a simular por ahora las clases PolicyEvaluator y CryptoSigner, finalmente  crea el endpoint POST /authorize que recibe la petición, llama al evaluador, luego al firmador, y devuelve la respuesta."
+
+
+Prompt PolicyEvaluator y CryptoSigner
+Actúa como un desarrollador Senior en .NET 8. Debes reemplazar la clase DummyPolicyEvaluator creando una implementación real llamada LocalPolicyEvaluator que implemente IPolicyEvaluator
+
+Reemplaza la clase DummyCryptoSigner implementando ICryptoSigner con una nueva clase CryptoSigner con ECDSA 
+
+Asegúrate de manejar posibles errores
