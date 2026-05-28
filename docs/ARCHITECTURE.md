@@ -11,6 +11,7 @@ Este diagrama muestra a Atlas PARS en el centro. Su responsabilidad es actuar co
 
 Atlas es el "guardia de seguridad" central. Los diferentes equipos (Squads) no necesitan programar su propia seguridad; simplemente le preguntan a Atlas si una operacion está permitida, y Atlas valida la identidad del usuario con el proveedor corporativo (externo) y les responde a los squad basándose en reglas centralizadas.
 
+```mermaid
 flowchart TD
     Cliente(("🧑‍💻 Usuario Final<br>[Persona]<br>Cliente que intenta realizar una operacion crítica."))
     
@@ -28,7 +29,7 @@ flowchart TD
     style SquadApp fill:#2e6295,stroke:#1e466b,color:#ffffff
     style AtlasPARS fill:#1168bd,stroke:#0b4884,color:#ffffff,stroke-width:3px
     style IdP fill:#999999,stroke:#6b6b6b,color:#ffffff
-
+```
 
 ## Nivel 2: Diagrama de Contenedores
 
