@@ -1,0 +1,8 @@
+# .gitignore
+bin/
+obj/
+.env
+.idea/
+.vscode/
+*.user
+*.suo
