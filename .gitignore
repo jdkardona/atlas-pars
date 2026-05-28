@@ -1,8 +1,39 @@
-# .gitignore
-bin/
-obj/
+# ==========================================
+# Atlas PARS - .gitignore
+# ==========================================
+
+# 1. Entornos y Secretos (CRÍTICO)
 .env
-.idea/
-.vscode/
-*.user
+.env.*
+*.secret.*
+appsettings.Development.json
+appsettings.Local.json
+
+# 2. Código .NET / C# (Binarios y temporales)
+[Bb]in/
+[Oo]bj/
+*.userprefs
 *.suo
+*.user
+.vs/
+TestResults/
+
+# 3. Infraestructura como Código (Terraform)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# 4. Orquestación y Contenedores
+.docker/
+docker-compose.override.yml
+
+# 5. Entornos locales y SO (VS Code, Rider, Mac/Windows)
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
