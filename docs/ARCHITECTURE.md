@@ -11,6 +11,7 @@ Este diagrama muestra a Atlas PARS en el centro. Su responsabilidad es actuar co
 
 Atlas es el "guardia de seguridad" central. Los diferentes equipos (Squads) no necesitan programar su propia seguridad; simplemente le preguntan a Atlas si una operacion está permitida, y Atlas valida la identidad del usuario con el proveedor corporativo (externo) y les responde a los squad basándose en reglas centralizadas.
 
+```mermaid
 flowchart TD
     Cliente(("🧑‍💻 Usuario Final<br>[Persona]<br>Cliente que intenta realizar una operacion crítica."))
     
@@ -28,12 +29,13 @@ flowchart TD
     style SquadApp fill:#2e6295,stroke:#1e466b,color:#ffffff
     style AtlasPARS fill:#1168bd,stroke:#0b4884,color:#ffffff,stroke-width:3px
     style IdP fill:#999999,stroke:#6b6b6b,color:#ffffff
-
+```
 
 ## Nivel 2: Diagrama de Contenedores
 
 Areas funcionales: el API que procesa la lógica en tiempo real, el Policy Store que guarda las reglas como archivos de configuración (Policy-as-Code) y la Base de Datos de Auditoria que mantiene un registro histórico inmutable de cada decisión tomada.
 
+```mermaid
 flowchart TD
     SquadApp(("Aplicación del Squad<br>[Software System]"))
 
@@ -52,12 +54,13 @@ flowchart TD
     style DB fill:#438dd5,stroke:#2e6295,color:#ffffff
     style Policies fill:#438dd5,stroke:#2e6295,color:#ffffff
     style SquadApp fill:#08427b,stroke:#052e56,color:#ffffff
-
+```
 
 ## Flujo de Autorizacion: Diagrama de Secuencia
 
 Cuando Atlas recibe la petición, valida al usuario, consulta las reglas, firma la decisión con un código de seguridad (firma criptográfica), guarda el resultado en el historial y finalmente le dice al Squad si puede continuar, si se deniega, o si el usuario debe pasar por un paso extra de seguridad (Challenge).
 
+```mermaid
 sequenceDiagram
     autonumber
     actor U as Usuario Final
@@ -90,3 +93,4 @@ sequenceDiagram
     else Es CHALLENGE
         SQ-->>U: Solicita factor adicional (MFA / Biometría)
     end
+```
