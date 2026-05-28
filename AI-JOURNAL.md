@@ -20,3 +20,16 @@ Asegúrate de incluir (Nombre, Tecnología, Descripción) en cada caja según el
 
 
 Por qué delegué esto: Al delegar la sintaxis de Mermaid a la IA, aseguré que la documentación cumpliera con el estándar técnico C4 sin perder tiempo en ajustes de diseño gráfico manual, permitiéndome validar la consistencia lógica de las relaciones entre sistemas antes de escribir código.
+
+
+Uso Estratégico 3: Despliegue local e IaC
+
+Prompt utilizado:
+*"Actúa como un Ingeniero DevOps Senior especializado en Azure. Necesito configurar la infraestructura base para un sistema multi-tenant.
+
+Redacta un docker-compose.yml para el entorno local que incluya: PostgreSQL 16 (con persistencia de volumen), un servicio de API (mapeado a un Dockerfile en src/Atlas.Api) y un volumen para un 'Policy Store' basado en archivos JSON locales.
+
+Crea un archivo main.tf (Terraform) para desplegar en Azure Container Apps y PostgreSQL Flexible Server.
+
+Redacta un RUNBOOK.md básico que explique cómo levantar el entorno local, realizar troubleshooting de la base de datos.
+Restricción: Mantén la estructura de directorios suministrada.
