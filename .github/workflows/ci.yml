@@ -1,36 +1,70 @@
 name: CI Atlas Pipeline
 
-# ¿Cuándo se activa este robot?
 on:
   push:
-    branches: [ "main" ] # Cada vez que alguien haga push a la rama main
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ] # O intente fusionar código (Pull Request) hacia main
+    branches: [ "main" ]
 
-# ¿Qué trabajo va a hacer?
 jobs:
+  # -----------------------------------------------------
+  # 1. CORE: COMPILACIÓN Y PRUEBAS UNITARIAS
+  # -----------------------------------------------------
   build-and-test:
-    runs-on: ubuntu-latest # Le pedimos a GitHub que nos preste una máquina virtual con Linux
-
+    runs-on: ubuntu-latest
     steps:
-    # 1. Descargar el código de nuestro repositorio a la máquina virtual
     - name: 📥 Checkout del código
       uses: actions/checkout@v4
 
-    # 2. Instalar el motor de .NET 8 en esa máquina
     - name: ⚙️ Configurar .NET 8
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
-    # 3. Descargar las librerías (Dapper, xUnit, etc.) usando tu archivo .sln
     - name: 📦 Restaurar dependencias
       run: dotnet restore Atlas.sln
 
-    # 4. Compilar el código (Revisar que no haya errores de sintaxis)
     - name: 🔨 Compilar el proyecto
       run: dotnet build Atlas.sln --configuration Release --no-restore
 
-    # 5. Ejecutar nuestras 7 pruebas de seguridad y lógica de negocio
     - name: 🧪 Ejecutar Pruebas Unitarias
       run: dotnet test Atlas.sln --configuration Release --no-build --verbosity normal
+
+  # -----------------------------------------------------
+  # 2. SECOPS: SAST, SCA Y ESCANEO DE CONTENEDORES
+  # -----------------------------------------------------
+  security-scans:
+    needs: build-and-test # Solo se ejecuta si el código compila y pasa las pruebas
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # Necesario para CodeQL y Trivy
+    
+    steps:
+    - name: 📥 Checkout del código
+      uses: actions/checkout@v4
+
+    # A. SAST (Static Application Security Testing) con CodeQL
+    - name: 🛡️ Inicializar CodeQL (SAST)
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+
+    - name: 🔨 CodeQL Auto-Build
+      uses: github/codeql-action/autobuild@v3
+
+    - name: 🔍 Analizar con CodeQL
+      uses: github/codeql-action/analyze@v3
+
+    # B. SCA & Container Scan con Trivy
+    - name: 🐳 Construir imagen Docker local para escaneo
+      run: docker build -t atlas-api:local -f src/Atlas.Api/Dockerfile .
+
+    - name: 🕵️‍♂️ Escaneo de Vulnerabilidades Docker y SCA (Trivy)
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'atlas-api:local'
+        format: 'table'
+        exit-code: '1' # Falla el pipeline si encuentra vulnerabilidades críticas
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'

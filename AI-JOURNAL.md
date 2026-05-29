@@ -128,3 +128,8 @@ Prompt utilizado: "Actúa como un Ingeniero de Seguridad AppSec. Escribe una sui
 **Pipeline CI/CD**
 
 Prompt utilizado: Actúa como un Ingeniero DevOps . Diseña un pipeline de Integración Continua (CI) en un archivo YAML para GitHub Actions. El pipeline debe: 1. Activarse en cada push o pull request hacia la rama 'main'. 2. Levantar un entorno Ubuntu, configurar .NET 8 y restaurar la solución (Atlas.sln). 3.  Ejecutar la suite completa de pruebas unitarias de PolicyEvaluator y  CryptoSigner antes de permitir cualquier despliegue.
+
+
+**Integración de DevSecOps**
+
+Prompt : Actúa como un experto en DevSecOps. Extiende mi pipeline de GitHub Actions para incluir escaneos de seguridad automatizados. Necesito SAST (análisis estático), SCA (dependencias) y escaneo de vulnerabilidades en la imagen Docker. Usa herramientas como (CodeQL y Trivy) y asegúrate de que el pipeline falle si se detectan vulnerabilidades críticas. Este trabajo dependera primero de que se ejecuten las pruebas unitarias.
