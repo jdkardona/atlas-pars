@@ -70,3 +70,17 @@ Actúa como un desarrollador Senior en .NET 8. Debes reemplazar la clase DummyPo
 Reemplaza la clase DummyCryptoSigner implementando ICryptoSigner con una nueva clase CryptoSigner con ECDSA 
 
 Asegúrate de manejar posibles errores
+
+
+
+Prompt Persitencia:
+Actúa como un Desarrollador Backend Senior. Necesito implementar la capa de persistencia para Atlas PARS.
+
+Crea un script SQL para una tabla authorization_logs en PostgreSQL que incluya un ID UUID, un TenantId indexado, los datos de la decisión, la firma criptográfica y una columna RequestContext de tipo JSONB.
+
+Crea una interfaz IAuditRepo y su implementación PgAuditRepo usando Dapper y Npgsql para C#. El repositorio solo debe tener un método de inserción.
+
+Actualiza el Program.cs para extraer el TenantId desde un header X-Tenant-Id, pasarlo al PolicyEvaluator (para que lea el JSON correcto ej. 'squad-a.json') y guardar la transacción en la base de datos.
+
+
+

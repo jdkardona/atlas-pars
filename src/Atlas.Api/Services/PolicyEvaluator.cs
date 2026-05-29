@@ -28,16 +28,17 @@ public class PolicyEvaluator : IPolicyEvaluator
         _policyDirectory = configuration["POLICY_PATH"] ?? "/policies";
     }
 
-    public async Task<Decision> EvaluateAsync(AuthorizationRequest request)
+    public async Task<Decision> EvaluateAsync(string tenantId, AuthorizationRequest request)
     {
         try
         {
-            // Para el PoC, usaremos el squad-a (En un escenario real, esto se extrae del JWT)
-            string policyFilePath = Path.Combine(_policyDirectory, "squad-a.json");
+            // 2. ¡Adiós al código quemado! 
+            // Ahora si el header dice "squad-b", buscará "squad-b.json"
+            string policyFilePath = Path.Combine(_policyDirectory, $"{tenantId}.json");
 
             if (!File.Exists(policyFilePath))
             {
-                Console.WriteLine($"[Error] No se encontró la política en: {policyFilePath}");
+                Console.WriteLine($"[Error] No se encontró la política para el tenant en: {policyFilePath}");
                 return Decision.DENY; // Fail-Safe
             }
 
@@ -47,37 +48,33 @@ public class PolicyEvaluator : IPolicyEvaluator
 
             if (policyDoc?.Rules == null) return Decision.DENY;
 
-            // B. Buscar la regla que aplique a la acción solicitada (ej. "transfer")
+            // B. Buscar la regla que aplique a la acción solicitada
             var rule = policyDoc.Rules.FirstOrDefault(r => r.Action.Equals(request.Action, StringComparison.OrdinalIgnoreCase));
             
-            if (rule == null) return Decision.DENY; // Si no hay regla que lo permita, se deniega por defecto
+            if (rule == null) return Decision.DENY;
 
             // C. Validar el contexto (Monto)
             if (request.Context != null && request.Context.TryGetValue("amount", out var amountObj))
             {
-                // Convertir el JSON element a decimal
                 if (decimal.TryParse(amountObj.ToString(), out decimal requestedAmount))
                 {
-                    // Lógica Core de Evaluación
                     if (requestedAmount <= rule.MaxAmount)
                     {
                         return rule.RequireMfa ? Decision.CHALLENGE : Decision.PERMIT;
                     }
                     else
                     {
-                        return Decision.DENY; // Excede el límite permitido
+                        return Decision.DENY;
                     }
                 }
             }
 
-            // Si llegamos aquí, el contexto era inválido o faltaba el monto
             return Decision.DENY; 
         }
         catch (Exception ex)
         {
-            // Logging del error (para observabilidad)
             Console.WriteLine($"[Excepción en Evaluación]: {ex.Message}");
-            return Decision.DENY; // Principio fundamental de seguridad: Ante fallos técnicos, bloquear.
+            return Decision.DENY;
         }
     }
 }
