@@ -133,3 +133,8 @@ Prompt utilizado: Actúa como un Ingeniero DevOps . Diseña un pipeline de Integ
 **Integración de DevSecOps**
 
 Prompt : Actúa como un experto en DevSecOps. Extiende mi pipeline de GitHub Actions para incluir escaneos de seguridad automatizados. Necesito SAST (análisis estático), SCA (dependencias) y escaneo de vulnerabilidades en la imagen Docker. Usa herramientas como (CodeQL y Trivy) y asegúrate de que el pipeline falle si se detectan vulnerabilidades críticas. Este trabajo dependera primero de que se ejecuten las pruebas unitarias.
+
+
+**Modelado de Amenazas Arquitectónico (STRIDE)**
+
+Prompt : Actúa como un Arquitecto de Seguridad (AppSec). Genera un modelo de amenazas utilizando la metodología STRIDE para el sistema Atlas PARS que acabo de construir. Identifica amenazas críticas considerando nuestro motor multi-tenant (archivos JSON), la base de datos de auditoría (Postgres JSONB) y la firma de decisiones (ECDSA), proporcionando las mitigaciones arquitectónicas exactas que implementamos en el código, incluye un riesgo aceptado para los tokens JWS que no tienen tiempo de expiracion.

@@ -57,7 +57,8 @@ jobs:
 
     # B. SCA & Container Scan con Trivy
     - name: 🐳 Construir imagen Docker local para escaneo
-      run: docker build -t atlas-api:local -f src/Atlas.Api/Dockerfile .
+      working-directory: ./src/Atlas.Api
+      run: docker build -t atlas-api:local .
 
     - name: 🕵️‍♂️ Escaneo de Vulnerabilidades Docker y SCA (Trivy)
       uses: aquasecurity/trivy-action@master
