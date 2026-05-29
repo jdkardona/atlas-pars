@@ -30,7 +30,7 @@ jobs:
     - name: 🔨 Compilar el proyecto
       run: dotnet build Atlas.sln --configuration Release --no-restore
 
-    - name: 🧪 Ejecutar Pruebas Unitarias
+    - name: 🧪 Ejecutar Pruebas Unitarias y e2e
       run: dotnet test Atlas.sln --configuration Release --no-build --verbosity normal
 
   # -----------------------------------------------------

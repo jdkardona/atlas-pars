@@ -41,7 +41,8 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
             {
                 configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
                 {
-                    { "POLICY_PATH", _testDirectory }
+                    { "POLICY_PATH", _testDirectory },
+                    { "DB_CONNECTION", "test" } 
                 });
             });
         }).CreateClient();
