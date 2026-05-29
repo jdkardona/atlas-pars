@@ -85,10 +85,10 @@ Actualiza el Program.cs para extraer el TenantId desde un header X-Tenant-Id, pa
 
 **Automatización de Pruebas (xUnit) PolicyEvaluator**
 
-Prompt utilizado: *"Actúa como un SDET (Software Development Engineer in Test) Senior en .NET. Configura un proyecto de pruebas unitarias usando xUnit. Crea una suite de pruebas para PolicyEvaluator.
+Prompt utilizado: Actúa como un SDET (Software Development Engineer in Test) Senior en .NET. Configura un proyecto de pruebas unitarias usando xUnit. Crea una suite de pruebas para PolicyEvaluator.
 Especificaciones:
 
-Crea pruebas para los escenarios críticos: Transferencia válida (PERMIT), transferencia que excede el límite (DENY), regla que requiere autenticación fuerte (CHALLENGE), y escenario Fail-Safe (archivo de tenant inexistente devuelve DENY)."
+Crea pruebas para los escenarios críticos: Transferencia válida (PERMIT), transferencia que excede el límite (DENY), regla que requiere autenticación fuerte (CHALLENGE), y escenario Fail-Safe (archivo de tenant inexistente devuelve DENY).
 
 este es un ejmplo de una policy de squad-a:
 
@@ -119,6 +119,12 @@ este es un ejmplo de una policy de squad-a:
 
 
 
-**Pruebas Unitarias de CryptoSigner** y Cumplimiento de Estándares**
+**Pruebas Unitarias de CryptoSigner**
 
 Prompt utilizado: "Actúa como un Ingeniero de Seguridad AppSec. Escribe una suite de pruebas xUnit para la clase CryptoSigner, te dejo a libertar decicir los elementos de prueba."
+
+
+
+**Pipeline CI/CD**
+
+Prompt utilizado: Actúa como un Ingeniero DevOps . Diseña un pipeline de Integración Continua (CI) en un archivo YAML para GitHub Actions. El pipeline debe: 1. Activarse en cada push o pull request hacia la rama 'main'. 2. Levantar un entorno Ubuntu, configurar .NET 8 y restaurar la solución (Atlas.sln). 3.  Ejecutar la suite completa de pruebas unitarias de PolicyEvaluator y  CryptoSigner antes de permitir cualquier despliegue.

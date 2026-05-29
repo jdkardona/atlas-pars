@@ -1,0 +1,36 @@
+name: CI Atlas Pipeline
+
+# ¿Cuándo se activa este robot?
+on:
+  push:
+    branches: [ "main" ] # Cada vez que alguien haga push a la rama main
+  pull_request:
+    branches: [ "main" ] # O intente fusionar código (Pull Request) hacia main
+
+# ¿Qué trabajo va a hacer?
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Le pedimos a GitHub que nos preste una máquina virtual con Linux
+
+    steps:
+    # 1. Descargar el código de nuestro repositorio a la máquina virtual
+    - name: 📥 Checkout del código
+      uses: actions/checkout@v4
+
+    # 2. Instalar el motor de .NET 8 en esa máquina
+    - name: ⚙️ Configurar .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    # 3. Descargar las librerías (Dapper, xUnit, etc.) usando tu archivo .sln
+    - name: 📦 Restaurar dependencias
+      run: dotnet restore Atlas.sln
+
+    # 4. Compilar el código (Revisar que no haya errores de sintaxis)
+    - name: 🔨 Compilar el proyecto
+      run: dotnet build Atlas.sln --configuration Release --no-restore
+
+    # 5. Ejecutar nuestras 7 pruebas de seguridad y lógica de negocio
+    - name: 🧪 Ejecutar Pruebas Unitarias
+      run: dotnet test Atlas.sln --configuration Release --no-build --verbosity normal
