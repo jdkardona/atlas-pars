@@ -17,8 +17,9 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
     public IntegrationTests(WebApplicationFactory<Program> factory)
     {
-        _testDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        Directory.CreateDirectory(_testDirectory);
+        // Usamos una ruta absoluta  dentro del runner de GitHub
+        _testDirectory = Path.Combine(Path.GetTempPath(), "test-policies");
+        if (!Directory.Exists(_testDirectory)) Directory.CreateDirectory(_testDirectory);
 
         string rawJsonPolicy = @"
         {
@@ -36,7 +37,6 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
         _client = factory.WithWebHostBuilder(builder =>
         {
-            // CORRECCIÓN AQUÍ: Así se sobrescriben las variables de entorno/configuración en E2E
             builder.ConfigureAppConfiguration((context, configBuilder) =>
             {
                 configBuilder.AddInMemoryCollection(new Dictionary<string, string?>
