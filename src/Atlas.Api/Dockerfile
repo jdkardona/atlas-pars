@@ -1,5 +1,9 @@
 # Etapa 1: Base para ejecución (Ligera)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER root
+# Parche de seguridad en tiempo de compilación para mitigar CVEs del SO base
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+USER $APP_UID
 WORKDIR /app
 EXPOSE 80
 
