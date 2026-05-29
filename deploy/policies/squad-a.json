@@ -3,8 +3,21 @@
   "rules": [
     {
       "action": "transfer",
-      "maxAmount": 3000000,
-      "requireMfa": false
+      "minAmount": 0,
+      "maxAmount": 499999,
+      "decision": "PERMIT"
+    },
+    {
+      "action": "transfer",
+      "minAmount": 500000,
+      "maxAmount": 1000000,
+      "decision": "CHALLENGE"
+    },
+    {
+      "action": "transfer",
+      "minAmount": 1000001,
+      "maxAmount": 99999999999,
+      "decision": "DENY"
     }
   ]
 }

@@ -8,8 +8,8 @@ namespace Atlas.Api.Models;
 public enum Decision
 {
     PERMIT,
-    DENY,
-    CHALLENGE
+    CHALLENGE,
+    DENY
 }
 
 /// <summary>

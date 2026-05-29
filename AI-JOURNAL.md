@@ -1,14 +1,14 @@
-Uso Estratégico 1: Prevención de Fugas de Seguridad (Shift-Left Security)
+ **Prevención de Fugas de Seguridad (Shift-Left Security)**
 
-Prompt / Tarea delegada: "Genera un archivo .gitignore estricto y blindado para un stack de .NET 8, Terraform y Docker. Asegúrate de bloquear explícitamente cualquier archivo de variables de entorno (.env) y los estados locales de infraestructura (.tfstate) para evitar fugas de credenciales en el primer push. debes guiarte en los ADR que te voy a suministrar."
+Prompt: "Genera un archivo .gitignore estricto y blindado para un stack de .NET 8, Terraform y Docker. Asegúrate de bloquear explícitamente cualquier archivo de variables de entorno (.env) y los estados locales de infraestructura (.tfstate) para evitar fugas de credenciales en el primer push. debes guiarte en los ADR que te voy a suministrar."
 
-Por qué delegué esto: Escribir un .gitignore desde cero es propenso a errores humanos, dado que ya habia redactado los ADR y se habia definido el stack tecnologico, he delegado esta tarea a la IA para mitigar riesgos de seguridad.
+-- Escribir un .gitignore desde cero es propenso a errores humanos, dado que ya habia redactado los ADR y se habia definido el stack tecnologico, he delegado esta tarea a la IA para mitigar riesgos de seguridad.
 
 
 
-Uso Estratégico 2: Modelado de Arquitectura (C4 y Mermaid)
+ **Modelado de Arquitectura (C4 y Mermaid)**
 
-Prompt utilizado: "Actúa como un Arquitecto de Software Senior. Basándote en los ADRs suministrados y el archivo README.md, genera el código Mermaid para diagramas C4 de Nivel 1 (Contexto) y Nivel 2 (Contenedores).  incluye tambien un diagrama de secuencias.
+Prompt: "Actúa como un Arquitecto de Software Senior. Basándote en los ADRs suministrados y el archivo README.md, genera el código Mermaid para diagramas C4 de Nivel 1 (Contexto) y Nivel 2 (Contenedores).  incluye tambien un diagrama de secuencias.
 
 Restricciones:
 
@@ -18,11 +18,10 @@ Usa sintaxis estricta de Mermaid compatible con GitHub.
 
 Asegúrate de incluir (Nombre, Tecnología, Descripción) en cada caja según el estándar C4"
 
+-- Al delegar la sintaxis de Mermaid a la IA, aseguré que la documentación cumpliera con el estándar técnico C4 sin perder tiempo en ajustes de diseño gráfico manual, permitiéndome validar la consistencia lógica de las relaciones entre sistemas antes de escribir código.
 
-Por qué delegué esto: Al delegar la sintaxis de Mermaid a la IA, aseguré que la documentación cumpliera con el estándar técnico C4 sin perder tiempo en ajustes de diseño gráfico manual, permitiéndome validar la consistencia lógica de las relaciones entre sistemas antes de escribir código.
 
-
-Uso Estratégico 3: Despliegue local e IaC
+**Despliegue local e IaC**
 
 Prompt utilizado:
 "Actúa como un Ingeniero DevOps Senior especializado en Azure. Necesito configurar la infraestructura base para un sistema multi-tenant.
@@ -36,7 +35,7 @@ Restricción: Mantén la estructura de directorios suministrada."
 
 
 
-Uso estrategico 4: Conytratos y dockerfile
+**Conytratos y dockerfile**
 
 Promt: "Eres un desarrollador backend Senior en .NET 8. Estamos construyendo Atlas PARS, un motor centralizado de autorizaciónes. el proyecto se llama Atlas.Api.csproj, y se encuentra en la carpeta /src/Atlas.Api
 
@@ -52,7 +51,7 @@ tambien necesito que me ayudes a generar un Dockerfile optimizado para producci�
 
 
 
-Uso estrategico 5: Prompt de Especificación (Interfaces y Minimal API):
+**Prompt de Especificación (Interfaces y Minimal API):**
 "Actúa como un desarrollador Senior en .NET 8. ya tenemos definidos los records AuthorizationRequest y AuthorizationResponse.
 
 Tarea 1: Define dos interfaces limpias en C#.
@@ -64,8 +63,8 @@ ICryptoSigner: Debe tener un método que reciba el JSON del Request y la Decisio
 Tarea 2: Crea el orquestador con Minimal APIs. Configura la inyección de dependencias para las interfaces del paso anterior vamos a simular por ahora las clases PolicyEvaluator y CryptoSigner, finalmente  crea el endpoint POST /authorize que recibe la petición, llama al evaluador, luego al firmador, y devuelve la respuesta."
 
 
-Prompt PolicyEvaluator y CryptoSigner
-Actúa como un desarrollador Senior en .NET 8. Debes reemplazar la clase DummyPolicyEvaluator creando una implementación real llamada LocalPolicyEvaluator que implemente IPolicyEvaluator
+**PolicyEvaluator y CryptoSigner**
+Prompt : Actúa como un desarrollador Senior en .NET 8. Debes reemplazar la clase DummyPolicyEvaluator creando una implementación real llamada LocalPolicyEvaluator que implemente IPolicyEvaluator
 
 Reemplaza la clase DummyCryptoSigner implementando ICryptoSigner con una nueva clase CryptoSigner con ECDSA 
 
@@ -73,8 +72,8 @@ Asegúrate de manejar posibles errores
 
 
 
-Prompt Persitencia:
-Actúa como un Desarrollador Backend Senior. Necesito implementar la capa de persistencia para Atlas PARS.
+**Persitencia**
+Prompt :Actúa como un Desarrollador Backend Senior. Necesito implementar la capa de persistencia para Atlas PARS.
 
 Crea un script SQL para una tabla authorization_logs en PostgreSQL que incluya un ID UUID, un TenantId indexado, los datos de la decisión, la firma criptográfica y una columna RequestContext de tipo JSONB.
 
@@ -84,3 +83,35 @@ Actualiza el Program.cs para extraer el TenantId desde un header X-Tenant-Id, pa
 
 
 
+**Automatización de Pruebas (xUnit) PolicyEvaluator**
+
+Prompt utilizado: *"Actúa como un SDET (Software Development Engineer in Test) Senior en .NET. Configura un proyecto de pruebas unitarias usando xUnit. Crea una suite de pruebas para PolicyEvaluator.
+Especificaciones:
+
+Crea pruebas para los escenarios críticos: Transferencia válida (PERMIT), transferencia que excede el límite (DENY), regla que requiere autenticación fuerte (CHALLENGE), y escenario Fail-Safe (archivo de tenant inexistente devuelve DENY)."
+
+este es un ejmplo de una policy de squad-a:
+
+{
+  "tenantId": "squad-a",
+  "rules": [
+    {
+      "action": "transfer",
+      "minAmount": 0,
+      "maxAmount": 499999,
+      "decision": "PERMIT"
+    },
+    {
+      "action": "transfer",
+      "minAmount": 500000,
+      "maxAmount": 1000000,
+      "decision": "CHALLENGE"
+    },
+    {
+      "action": "transfer",
+      "minAmount": 1000001,
+      "maxAmount": 99999999999,
+      "decision": "DENY"
+    }
+  ]
+}
