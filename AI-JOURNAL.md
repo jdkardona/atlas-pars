@@ -138,3 +138,8 @@ Prompt : Actúa como un experto en DevSecOps. Extiende mi pipeline de GitHub Act
 **Modelado de Amenazas Arquitectónico (STRIDE)**
 
 Prompt : Actúa como un Arquitecto de Seguridad (AppSec). Genera un modelo de amenazas utilizando la metodología STRIDE para el sistema Atlas PARS que acabo de construir. Identifica amenazas críticas considerando nuestro motor multi-tenant (archivos JSON), la base de datos de auditoría (Postgres JSONB) y la firma de decisiones (ECDSA), proporcionando las mitigaciones arquitectónicas exactas que implementamos en el código, incluye un riesgo aceptado para los tokens JWS que no tienen tiempo de expiracion.
+
+
+**Pruebas de Integración End-to-End en Memoria**
+
+Prompt utilizado: "Actúa como un ingeniero experto en pruebas. Crea una prueba de integración E2E para el endpoint POST /authorize usando WebApplicationFactory en .NET 8.  usar un directorio de políticas temporal, enviar un request HTTP real con el header X-Tenant-Id, y verificar que la API responda con OK y un token JWS válido"

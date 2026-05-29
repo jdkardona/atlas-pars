@@ -40,4 +40,4 @@ app.MapPost("/authorize", async (
 
 app.Run();
 
-
+public partial class Program { }
