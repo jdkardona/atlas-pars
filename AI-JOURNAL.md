@@ -115,3 +115,10 @@ este es un ejmplo de una policy de squad-a:
     }
   ]
 }
+
+
+
+
+**Pruebas Unitarias de CryptoSigner** y Cumplimiento de Estándares**
+
+Prompt utilizado: "Actúa como un Ingeniero de Seguridad AppSec. Escribe una suite de pruebas xUnit para la clase CryptoSigner, te dejo a libertar decicir los elementos de prueba."
